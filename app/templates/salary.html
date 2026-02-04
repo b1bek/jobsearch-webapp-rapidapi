@@ -1,0 +1,76 @@
+{% extends "base.html" %}
+
+{% block title %}Salary Estimates - Job Search{% endblock %}
+
+{% block content %}
+<section class="salary-page">
+    <h1>Salary Estimates</h1>
+    <p class="page-subtitle">Discover competitive salary ranges for any role and location to negotiate with confidence.</p>
+    
+    <form action="{{ url_for('jobs.salary_estimate') }}" method="get" class="search-form">
+        <div class="form-row">
+            <div class="form-group">
+                <label for="job_title">Job Title</label>
+                <input type="text" id="job_title" name="job_title" value="{{ job_title }}" placeholder="e.g., Software Engineer, Product Manager" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="location">Location</label>
+                <input type="text" id="location" name="location" value="{{ location }}" placeholder="e.g., San Francisco, CA" required>
+            </div>
+        </div>
+        
+        <button type="submit" class="btn btn-primary">
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" x2="12" y1="2" y2="22"></line><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path></svg>
+            Get Salary Estimate
+        </button>
+    </form>
+    
+    {% if error %}
+    <div class="alert alert-error">{{ error }}</div>
+    {% endif %}
+    
+    {% if salary_data %}
+    <div class="salary-results">
+        <h2>Salary Estimates for "{{ job_title }}" in {{ location }}</h2>
+        
+        {% for salary in salary_data %}
+        <div class="salary-card">
+            <h3>{{ salary.job_title }}</h3>
+            <p class="location">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+                {{ salary.location }}
+            </p>
+            
+            <div class="salary-range">
+                <div class="salary-item">
+                    <span class="label">Minimum</span>
+                    <span class="value">${{ "{:,.0f}".format(salary.min_salary) }}</span>
+                </div>
+                <div class="salary-item median">
+                    <span class="label">Median</span>
+                    <span class="value">${{ "{:,.0f}".format(salary.median_salary) }}</span>
+                </div>
+                <div class="salary-item">
+                    <span class="label">Maximum</span>
+                    <span class="value">${{ "{:,.0f}".format(salary.max_salary) }}</span>
+                </div>
+            </div>
+            
+            <div class="salary-meta">
+                <span>{{ salary.salary_period }}</span>
+                <span>Source: {{ salary.publisher_name }}</span>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% elif job_title and location and not error %}
+    <div class="no-results">
+        <div class="no-results-icon">💰</div>
+        <h3>No salary data found</h3>
+        <p>We couldn't find salary information for "{{ job_title }}" in {{ location }}. Try a different job title or location.</p>
+        <a href="{{ url_for('jobs.salary_estimate') }}" class="btn btn-primary">Try Again</a>
+    </div>
+    {% endif %}
+</section>
+{% endblock %}

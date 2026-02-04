@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+
+{% block title %}Home - Job Search{% endblock %}
+
+{% block content %}
+<section class="hero">
+    <div class="hero-content">
+        <h1>Find Your Dream Job</h1>
+        <p>Discover thousands of job opportunities from top companies worldwide. Your next career move starts here.</p>
+        
+        <form action="{{ url_for('jobs.search') }}" method="get" class="search-form hero-form">
+            <div class="form-row">
+                <input type="text" name="query" placeholder="Job title, keywords, or company" required>
+                <input type="text" name="location" placeholder="City, state, or remote">
+                <button type="submit" class="btn btn-primary btn-large">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><path d="m21 21-4.3-4.3"></path></svg>
+                    Search Jobs
+                </button>
+            </div>
+        </form>
+        
+        <div class="stats">
+            <div class="stat-item">
+                <span class="stat-number">10K+</span>
+                <span class="stat-label">Active Jobs</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-number">5K+</span>
+                <span class="stat-label">Companies</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-number">100+</span>
+                <span class="stat-label">Countries</span>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="features">
+    <div class="feature-card">
+        <div class="feature-icon">🔍</div>
+        <h3>Smart Search</h3>
+        <p>Find the perfect job with our powerful search. Filter by location, salary, job type, and more.</p>
+        <a href="{{ url_for('jobs.search') }}" class="btn btn-secondary">Start Searching</a>
+    </div>
+    
+    <div class="feature-card">
+        <div class="feature-icon">💰</div>
+        <h3>Salary Insights</h3>
+        <p>Get accurate salary estimates for any role and location to negotiate with confidence.</p>
+        <a href="{{ url_for('jobs.salary_estimate') }}" class="btn btn-secondary">Check Salaries</a>
+    </div>
+    
+    <div class="feature-card">
+        <div class="feature-icon">🏠</div>
+        <h3>Remote Opportunities</h3>
+        <p>Discover remote-friendly positions from companies that embrace flexible work.</p>
+        <a href="{{ url_for('jobs.search', remote_only='true') }}" class="btn btn-secondary">Find Remote Jobs</a>
+    </div>
+</section>
+{% endblock %}
