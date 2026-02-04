@@ -40,7 +40,7 @@ Run the application:
 uv run main.py
 ```
 
-The app will be available at `http://localhost:5001`
+The app will be available at `http://localhost:5000`
 
 ## Tech Stack
 
