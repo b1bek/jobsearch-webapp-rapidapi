@@ -37,7 +37,7 @@ A Flask web application for searching jobs using the JSearch API from RapidAPI.
 
 Run the application:
 ```bash
-python main.py
+uv run main.py
 ```
 
 The app will be available at `http://localhost:5001`
